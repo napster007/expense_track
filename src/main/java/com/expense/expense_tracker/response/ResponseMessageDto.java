@@ -1,0 +1,19 @@
+package com.expense.expense_tracker.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponseMessageDto {
+
+    private String status;
+    private String message;
+    private Object data;
+
+}
