@@ -7,10 +7,10 @@ export const AppRouter = () => {
     return (
         <Routes>
             {/* Public */}
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
 
             {/* Protected (temporary) */}
-            <Route path="/" element={<ExpensesPage />} />
+            <Route path="/expenses" element={<ExpensesPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

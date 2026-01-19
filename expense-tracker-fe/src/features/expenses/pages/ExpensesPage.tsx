@@ -12,14 +12,31 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import type { Expense } from '../interface/Expense';
 
-/* -------- Temporary Mock Data -------- */
-const expenses = [
-    { id: 1, title: 'Groceries', amount: 1200, date: '2026-01-10' },
-    { id: 2, title: 'Internet Bill', amount: 1500, date: '2026-01-05' },
-];
+
 
 export const ExpensesPage = () => {
+    const [expenses, setExpenses] = useState<Expense[]>([]);
+
+    useEffect(() => {
+        const fetchExpenses = async () => {
+            try {
+                const response = await axios.get(
+                    "/api/v1/expenses"
+                );
+                console.log("Data Fetched:", response.data);
+                setExpenses(response.data);
+            } catch (err) {
+                console.error("No Data:", err);
+            }
+        };
+
+        fetchExpenses();
+    }, []);
+
     return (
         <>
             {/* Top App Bar */}
@@ -44,7 +61,7 @@ export const ExpensesPage = () => {
                             Total Expenses (This Month)
                         </Typography>
                         <Typography variant="h4" color="error.main">
-                            ₱ {expenses.reduce((sum, e) => sum + e.amount, 0)}
+                            ₱ {expenses.reduce((sum, expense) => sum + expense.amount, 0)}
                         </Typography>
                     </CardContent>
                 </Card>
@@ -61,13 +78,13 @@ export const ExpensesPage = () => {
                             >
                                 <Box>
                                     <Typography variant="subtitle1">
-                                        {expense.title}
+                                        {expense.transactionName}
                                     </Typography>
                                     <Typography
                                         variant="caption"
                                         color="text.secondary"
                                     >
-                                        {expense.date}
+                                        {expense.createdAt}
                                     </Typography>
                                 </Box>
 

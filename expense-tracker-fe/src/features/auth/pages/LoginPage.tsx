@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 
 /* ------------------ Validation Schema ------------------ */
 const loginSchema = z.object({
@@ -43,6 +44,24 @@ export const LoginPage = () => {
         try {
             console.log('Login payload:', data);
             // 🔜 API call will go here
+            const response = await axios.post(
+                "http://localhost:8083/api/auth/login",
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            // JWT token from backend
+            const { token } = response.data;
+
+            // Save token
+            localStorage.setItem("token", token);
+
+            console.log("Login success:", response.data);
+
         } catch (err) {
             setError('Invalid email or password');
         }
