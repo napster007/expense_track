@@ -2,6 +2,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from '../features/auth/pages/LoginPage';
 import { ExpensesPage } from '../features/expenses/pages/ExpensesPage';
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute';
 
 export const AppRouter = () => {
     return (
@@ -10,7 +11,14 @@ export const AppRouter = () => {
             <Route path="/" element={<LoginPage />} />
 
             {/* Protected (temporary) */}
-            <Route path="/expenses" element={<ExpensesPage />} />
+            <Route
+                path="/expenses"
+                element={
+                    <ProtectedRoute>
+                        <ExpensesPage />
+                    </ProtectedRoute>
+                }
+            />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

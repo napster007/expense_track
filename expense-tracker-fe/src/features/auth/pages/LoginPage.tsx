@@ -45,7 +45,7 @@ export const LoginPage = () => {
             console.log('Login payload:', data);
             // 🔜 API call will go here
             const response = await axios.post(
-                "http://localhost:8083/api/auth/login",
+                "/api/v1/users/login",
                 data,
                 {
                     headers: {
