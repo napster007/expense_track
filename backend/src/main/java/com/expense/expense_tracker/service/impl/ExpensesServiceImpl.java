@@ -1,7 +1,7 @@
 package com.expense.expense_tracker.service.impl;
 
-import com.expense.expense_tracker.dto.AddExpenseDto;
-import com.expense.expense_tracker.dto.UpdateExpenseDto;
+import com.expense.expense_tracker.dto.expenses.AddExpenseDto;
+import com.expense.expense_tracker.dto.expenses.UpdateExpenseDto;
 import com.expense.expense_tracker.entities.Expenses;
 import com.expense.expense_tracker.repository.ExpensesRepository;
 import com.expense.expense_tracker.response.ExpensesResponse;
@@ -39,6 +39,16 @@ public class ExpensesServiceImpl implements ExpensesService {
                 .isExpense(expense.getIsExpense())
                 .createdAt(expense.getCreatedAt())
                 .build()).collect(Collectors.toList());
+    }
+
+    public ResponseMessageDto expenseById(Long id){
+        final Expenses expenses = expensesRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found"));;
+
+        return ResponseMessageDto.builder()
+                .status("Success")
+                .message("Data Found!")
+                .data(expenses)
+                .build();
     }
 
     public ExpensesResponse createExpense(AddExpenseDto expense){

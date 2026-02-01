@@ -13,28 +13,23 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name ="expenses")
-public class Expenses {
+@Table(name ="users")
+public class UsersEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="transactionName")
-    private String transactionName;
+    @Column(name="username" ,unique = true,nullable = false)
+    private String username;
 
-    @Column(name="category")
-    private String category;
+    @Column(name="password",nullable = false)
+    private String password;
 
-    @Column(name="amount")
-    private Float amount;
-
-    @Column(name="isExpense")
-    private Boolean isExpense;
+    @Column(name="status")
+    private Boolean status;
 
     @Column(name="createdAt")
     private Date createdAt;
-
 }
-

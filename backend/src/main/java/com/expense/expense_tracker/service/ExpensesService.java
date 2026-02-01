@@ -1,7 +1,7 @@
 package com.expense.expense_tracker.service;
 
-import com.expense.expense_tracker.dto.AddExpenseDto;
-import com.expense.expense_tracker.dto.UpdateExpenseDto;
+import com.expense.expense_tracker.dto.expenses.AddExpenseDto;
+import com.expense.expense_tracker.dto.expenses.UpdateExpenseDto;
 import com.expense.expense_tracker.response.ExpensesResponse;
 import com.expense.expense_tracker.response.ResponseMessageDto;
 
@@ -14,6 +14,9 @@ public interface ExpensesService {
 
     //expense list
     List<ExpensesResponse> expensesList();
+
+    //expense list
+    ResponseMessageDto expenseById(Long id);
 
     //Update expense
     ResponseMessageDto updateExpense(UpdateExpenseDto updateExpenseDto, Long id);
