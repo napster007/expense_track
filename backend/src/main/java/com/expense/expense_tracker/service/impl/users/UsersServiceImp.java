@@ -4,6 +4,7 @@ import com.expense.expense_tracker.dto.users.LoginDto;
 import com.expense.expense_tracker.entities.UsersEntity;
 import com.expense.expense_tracker.repository.users.UsersRepository;
 import com.expense.expense_tracker.response.ResponseMessageDto;
+import com.expense.expense_tracker.security.JwtUtil;
 import com.expense.expense_tracker.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -20,11 +22,13 @@ public class UsersServiceImp implements UsersService {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UsersServiceImp(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UsersServiceImp(UsersRepository usersRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -53,10 +57,12 @@ public class UsersServiceImp implements UsersService {
             // Clear sensitive data before returning
             user.setPassword("");
 
+            String token = jwtUtil.generateToken(user.getUsername());
+
             return ResponseMessageDto.builder()
                     .status("Success")
                     .message("Authorized")
-                    .data(user)
+                    .data(Map.of("user", user, "token", token))
                     .build();
 
         } catch (Error e) {
