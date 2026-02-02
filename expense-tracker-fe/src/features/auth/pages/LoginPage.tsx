@@ -13,6 +13,8 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../auth.store';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -27,6 +29,8 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 /* ------------------ Component ------------------ */
 export const LoginPage = () => {
+    const navigate = useNavigate();
+    const setToken = useAuthStore((state) => state.setToken);
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -59,8 +63,10 @@ export const LoginPage = () => {
 
             // Save token
             localStorage.setItem("token", token);
+            setToken(token);
 
             console.log("Login success:", response.data);
+            navigate('/expenses');
 
         } catch (err) {
             setError('Invalid email or password');

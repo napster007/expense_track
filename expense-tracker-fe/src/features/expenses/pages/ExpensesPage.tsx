@@ -16,6 +16,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import type { Expense } from '../interface/Expense';
 import { useForm } from 'react-hook-form';
@@ -46,6 +47,7 @@ const createExpenseSchema = z.object({
 type CreateExpenseFormData = z.infer<typeof createExpenseSchema>;
 
 export const ExpensesPage = () => {
+    const navigate = useNavigate();
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [open, setOpen] = useState(false);
 
@@ -98,6 +100,11 @@ export const ExpensesPage = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
     return (
         <>
             {/* Top App Bar */}
@@ -107,7 +114,7 @@ export const ExpensesPage = () => {
                         Expense Tracker
                     </Typography>
 
-                    <Button color="inherit" startIcon={<LogoutIcon />}>
+                    <Button color="inherit" onClick={handleLogout} startIcon={<LogoutIcon />}>
                         Logout
                     </Button>
                 </Toolbar>
