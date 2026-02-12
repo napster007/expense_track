@@ -1,1 +1,0 @@
-ALTER TABLE expenses RENAME COLUMN createdAt to created_at;
